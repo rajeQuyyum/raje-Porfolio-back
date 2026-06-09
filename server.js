@@ -16,17 +16,25 @@ const app = express();
 
 const server = http.createServer(app);
 
+
+const allowedOrigins = [ /^http:\/\/localhost:\d+$/, "https://raje-portfolio-front.vercel.app", ];
+
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
 app.use(
   cors({
-    origin: "*",
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
+
+
 app.use(express.json());
 
 app.use("/api/chat", chatRoutes);
