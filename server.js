@@ -21,7 +21,7 @@ const allowedOrigins = [ /^http:\/\/localhost:\d+$/, "https://raje-portfolio-fro
 
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
@@ -29,7 +29,7 @@ const io = new Server(server, {
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: "*",
     credentials: true,
   })
 );
