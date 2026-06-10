@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 import Message from "../models/Message.js";
-import sendEmail from "../utils/sendEmail.js";
 
 export const saveUser = async (req, res) => {
   try {
@@ -17,7 +16,9 @@ export const saveUser = async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -30,11 +31,6 @@ export const sendMessage = async (req, res) => {
       sender,
       message,
     });
-
-    await sendEmail(
-      process.env.ADMIN_EMAIL,
-      `New message from ${sender} (${userEmail}): ${message}`
-    );
 
     res.json(newMessage);
   } catch (error) {
@@ -50,17 +46,21 @@ export const getMessages = async (req, res) => {
 
     const messages = await Message.find({
       userEmail: email,
-    }).sort({ createdAt: 1 });
+    }).sort({
+      createdAt: 1,
+    });
 
     res.json(messages);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
 export const adminReply = async (req, res) => {
   try {
-    const { userEmail, message, online } = req.body;
+    const { userEmail, message } = req.body;
 
     const reply = await Message.create({
       userEmail,
@@ -68,13 +68,11 @@ export const adminReply = async (req, res) => {
       message,
     });
 
-    if (!online) {
-      await sendEmail(userEmail, message);
-    }
-
     res.json(reply);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -86,6 +84,8 @@ export const getUsers = async (req, res) => {
 
     res.json(users);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };

@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import Message from "../models/Message.js";
 import User from "../models/User.js";
-import sendEmail from "../utils/sendEmail.js";
 
 export const adminLogin = async (req, res) => {
   try {
@@ -85,19 +84,14 @@ export const adminReply = async (req, res) => {
       message,
     });
 
-    await sendEmail(
-      userEmail,
-      `Admin replied: ${message}`
-    );
-
     res.json(newReply);
   } catch (error) {
-  console.log(error);
+    console.log(error);
 
-  res.status(500).json({
-    message: error.message,
-  });
-}
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 export const clearChat = async (req, res) => {
@@ -151,7 +145,6 @@ export const deleteUser = async (req, res) => {
     });
   }
 };
-
 
 export const deleteMessage = async (
   req,
